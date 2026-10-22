@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Révisions LSPS</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#f6f5f1;--sf:#fff;--tx:#1d1d1b;--mu:#6b6a64;--bd:#dedcd4;--ac:#0f6e56;--ac2:#e1f5ee;--ko:#b3361f;--ok:#2b7a3d;--wa:#b7791f}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#171716;--sf:#242422;--tx:#eeede8;--mu:#a09f97;--bd:#3a3a36;--ac:#5dcaa5;--ac2:#12332a;--ko:#f0997b;--ok:#7fd18f;--wa:#e8b862}}
+:root[data-theme="dark"]{--bg:#171716;--sf:#242422;--tx:#eeede8;--mu:#a09f97;--bd:#3a3a36;--ac:#5dcaa5;--ac2:#12332a;--ko:#f0997b;--ok:#7fd18f;--wa:#e8b862}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:640px;margin:0 auto;padding:16px}
+h1{font-size:20px;margin:0 0 12px}
+.tabs,.row{display:flex;gap:8px;flex-wrap:wrap}
+.tab,.chip,.btn{border:1px solid var(--bd);background:var(--sf);color:var(--tx);border-radius:10px;padding:9px 13px;font:inherit;cursor:pointer}
+.tab.on,.chip.on{background:var(--ac2);border-color:var(--ac);color:var(--ac)}
+.chip{font-size:14px;text-align:left}
+.chip small{display:block;color:var(--mu)}
+.btn.p{background:var(--ac);color:var(--bg);border-color:var(--ac);font-weight:600}
+.btn.ko{color:var(--ko)}.btn.ok{color:var(--ok)}.btn.wa{color:var(--wa)}
+.card{background:var(--sf);border:1px solid var(--bd);border-radius:14px;padding:18px;margin:12px 0}
+.l{font-size:12px;color:var(--mu);text-transform:uppercase;letter-spacing:.04em;margin-top:8px}
+.big{font-size:24px;font-weight:600;word-break:break-word}
+.ans{font-size:18px;color:var(--ac);font-weight:500}
+.mt{margin-top:14px}.mu{color:var(--mu);font-size:14px}
+.bar{height:8px;background:var(--bd);border-radius:6px;overflow:hidden;margin:6px 0}
+.bar i{display:block;height:100%;background:var(--ac)}
+.opt{display:block;width:100%;text-align:left;margin:6px 0}
+.opt.good{border-color:var(--ok);background:var(--ac2)}.opt.bad{border-color:var(--ko)}
+input,select{width:100%;padding:9px;border:1px solid var(--bd);border-radius:8px;background:var(--bg);color:var(--tx);font:inherit;margin:2px 0 8px}
+.li{display:flex;justify-content:space-between;gap:8px;border-bottom:1px solid var(--bd);padding:6px 0;font-size:14px}
+.pal{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}.pal .btn{padding:6px 10px;font-size:15px}
+canvas{width:100%;height:300px;touch-action:none;background:var(--sf);border:1px solid var(--bd);border-radius:14px;display:block;cursor:grab}
+</style></head><body><main><h1>🧪 Révisions LSPS</h1><div id="app"></div></main>
+<script>
+const AA=[
+["Glycine ✪","Gly ✪","G","Glycine","–H","Non chargée (chaîne non ionisable)","Acide aminé le plus simple ✪ ; seul sans carbone asymétrique ✪✪✪ ; structure à connaître ✪"],
+["Alanine ✪","Ala","A","Apolaires","–CH₃","Non chargée","Chaîne aliphatique : méthyl"],
+["Valine","Val","V","Apolaires","–CH(CH₃)₂","Non chargée","Chaîne aliphatique ramifiée"],
+["Leucine","Leu","L","Apolaires","–CH₂–CH(CH₃)₂","Non chargée","Chaîne aliphatique ramifiée"],
+["Isoleucine ✪","Ile ✪","I ✪","Apolaires","–CH(CH₃)–CH₂–CH₃","Non chargée","Aliphatique ; ramification asymétrique ✪ ; isomère de la Leucine ; 2ème carbone asymétrique"],
+["Méthionine ✪","Met ✪","M ✪","Apolaires","–CH₂–CH₂–S–CH₃","Non chargée","Soufre lié à 2 carbones ✪ ; pas de pont disulfure ; pas d’oxydoréduction"],
+["Proline","Pro","P","Apolaires","Cycle pyrrolidine (chaîne liée à l’azote α)","Non chargée","Amine secondaire ; induit un coude dans la protéine ✪ ; structure à connaître ✪"],
+["Phénylalanine","Phe","F ✪✪","Apolaires","–CH₂–C₆H₅ (benzène)","Non chargée","Benzène : cycle aromatique avec délocalisation des électrons ✪"],
+["Tryptophane ✪","Trp ✪","W ✪✪✪","Apolaires","–CH₂–indole","Non chargée","CH₂-indole : hétérocycle aromatique avec délocalisation des électrons"],
+["Sérine","Ser","S ✪","Polaires non ionisables","–CH₂–OH","Non chargée","Semblable à l’Alanine ; fonction alcool –OH ; liaisons H ; estérification par l’acide phosphorique"],
+["Thréonine","Thr","T ✪","Polaires non ionisables","–CH(OH)–CH₃","Non chargée","2ème carbone asymétrique ✪ ; fonction alcool –OH ; liaisons H ; estérification par l’acide phosphorique"],
+["Cystéine","Cys ✪","C","Polaires non ionisables","–CH₂–SH","Non chargée","Groupement thiol –SH ; ponts disulfures ✪ (stabilisent la structure) ; liaisons H"],
+["Tyrosine ✪✪","Tyr","Y ✪","Polaires non ionisables","–CH₂–C₆H₄–OH","Non chargée","Cycle aromatique ✪ ; fonction phénol –OH ; liaisons H ; peut être phosphorylée ; structure à connaître ✪"],
+["Asparagine","Asn","N ✪","Polaires non ionisables","–CH₂–CO–NH₂","Non chargée","Fonction amide ; stabilise les protéines par liaisons H"],
+["Glutamine ✪✪","Gln ✪✪","Q","Polaires non ionisables","–CH₂–CH₂–CO–NH₂","Non chargée","Fonction amide ; stabilise les protéines par liaisons H ; structure à connaître ✪"],
+["Histidine","His","H ✪","Basiques (chargés +)","–CH₂–imidazole","Oscille entre état chargé et non chargé","Cycle aromatique mais absorption négligeable dans l’UV ; point isoionique de l’imidazole proche du pH physiologique"],
+["Lysine ✪✪","Lys","K ✪","Basiques (chargés +)","–(CH₂)₄–NH₃⁺","Chargée + (constamment)","Point isoionique trop éloigné du pH physiologique"],
+["Arginine","Arg","R ✪","Basiques (chargés +)","–(CH₂)₃–NH–C(=NH₂⁺)–NH₂","Chargée + (constamment)","Point isoionique trop éloigné du pH physiologique"],
+["Acide aspartique ✪✪","Asp ✪","D","Acides (chargés −)","–CH₂–COO⁻","Chargée − au pH physiologique","Chaîne polaire ionisable acide"],
+["Acide glutamique ✪✪","Glu ✪","E","Acides (chargés −)","–CH₂–CH₂–COO⁻","Chargée − au pH physiologique","Chaîne polaire ionisable acide"]];
+const VS=[
+["CO₂","AX₂","Linéaire","180°","Apolaire","m + n = 2"],
+["BF₃","AX₃","Trigonale plane","120°","","m + n = 3"],
+["SnCl₂","AX₂E","Coudée","< 120°","","m + n = 3"],
+["CH₄","AX₄","Tétraédrique ✪","109°28′ ✪","Apolaire","m + n = 4"],
+["NH₃","AX₃E","Pyramide trigonale","< 109°28′","","m + n = 4"],
+["H₂O","AX₂E₂","Coudée","< 109°28′ ✪","Polaire","m + n = 4"],
+["PF₅","AX₅","Bipyramide trigonale","120° et 90°","","m + n = 5"],
+["SF₄","AX₄E","Papillon","< 120°","","m + n = 5"],
+["ICl₃","AX₃E₂","Forme en T ✪","90°","","m + n = 5"],
+["XeF₂","AX₂E₃","Linéaire","180°","","m + n = 5"],
+["SF₆","AX₆","Octaèdre","90° ou 180°","","m + n = 6"],
+["IF₅","AX₅E","Pyramide à base carrée","90°","","m + n = 6"],
+["ICl₄⁻ ✪✪","AX₄E₂","Molécule plan carrée","90°","","m + n = 6"]];
+const L1="Liaison chimique & Lewis",L2="Liaisons non covalentes",L3="Acides aminés (généralités)",L4="Modifications post-traductionnelles",L5="Propriétés & rôles";
+const AU=[
+[L1,"Liaison ionique : différence d’électronégativité ?","χA − χB > 1,7"],
+[L1,"Liaison covalente polarisée : différence d’électronégativité ?","Entre 0,4 et 1,7"],
+[L1,"Liaison covalente non polarisée : différence d’électronégativité ?","< 0,4"],
+[L1,"Liaison covalente simple en théorie de Lewis ?","Mise en commun de 2 électrons de valence (1 par atome) ; liaison de type σ ✪"],
+[L1,"Doublet non liant (= libre) ?","Doublet n’assurant pas de liaison ✪"],
+[L1,"Règle de l’octet ?","8 électrons sur la couche de valence ; toujours respectée pour C, N ✪, O ✪ et F"],
+[L1,"Lacune électronique et acide de Lewis ?","Acide de Lewis ✪ = molécule avec une lacune électronique : accepte un doublet (liaison covalente de coordination). Ex : B, Al (3 liaisons)"],
+[L1,"Hypervalence ?","Dépassement de l’octet à partir de la période n = 3 ✪✪✪ (ex : P ✪, S, Cl)"],
+[L1,"Valences maximales de P, S, Cl, Ar ?","P : 5, S : 6, Cl : 7, Ar : 8"],
+[L1,"Exemple de liaison double ? de liaison triple ?","Double ✪ : O₂ ; triple : N₂"],
+[L1,"Principe de VSEPR ?","Répulsion des paires électroniques de valence : géométrie à répulsions minimales (distances maximales)"],
+[L1,"Signification de AXₘEₙ ?","A atome central, X atome lié, m nombre de X liés, E doublet non liant, n nombre de doublets libres"],
+[L1,"Volume d’un doublet non liant par rapport à un doublet liant ?","Supérieur"],
+[L1,"Éléments le plus électronégatif et le plus électropositif ?","Fluor F et Césium Cs"],
+[L1,"Charges partielles d’une liaison A–B (χB > χA) ?","B : charge partielle négative −q ✪ ; A : charge partielle positive +q ✪"],
+[L1,"Sens du moment dipolaire μ d’une liaison ?","De l’atome le moins électronégatif vers le plus électronégatif"],
+[L1,"Molécule apolaire ?","Liaisons apolaires, ou somme des μ des liaisons nulle (ex : CO₂ linéaire, CH₄ tétraédrique)"],
+[L1,"Molécule polaire ?","Somme des μ des liaisons non nulle (ex : H₂O coudée) ; généralement soluble dans l’eau"],
+[L1,"Liaison apolaire / liaison polaire : exemples ?","Apolaire : C–C, C–H (hydrophobe) ; polaire : O–H, N–H, C=O (dipôle permanent)"],
+[L1,"Énergie de liaison : signe et ordre de grandeur (covalente) ?","Négative (formation exothermique) ; 150–800 kJ/mol ; E(double) > E(simple)"],
+[L2,"Force des interactions non covalentes ?","10 à 100 fois plus faibles qu’une liaison covalente, mais gouvernent la biologie moléculaire par multiplicité et coopérativité"],
+[L2,"Liaison hydrogène : définition et énergie ?","D–H···A avec D et A = O, N, F ; 2–40 kJ/mol ; directionnelle et spécifique (ADN : A-T, G-C)"],
+[L2,"Liaison hydrogène : distance D–A et angle optimal ?","1,5 à 3,5 Å ; environ 180° (efficacité qui chute si angle < 120°)"],
+[L2,"Règle de Lipinski (liaisons H) ?","Donneurs > 5 et accepteurs > 10 : médicament trop hydrophile, mauvaise absorption orale"],
+[L2,"Interaction ionique ?","20–80 kJ/mol ; attraction coulombienne ; dépend de ε du milieu ; pH-dépendante ; ponts salins Asp/Glu–Lys/Arg"],
+[L2,"Forces coulombiennes : ions–ions et ions–dipôles ?","Ions–ions : ∝ q₁·q₂/d, ~100 kJ/mol, longue distance ; ions–dipôles : ∝ −q·μ/d², ~10 kJ/mol, moyenne distance (solvatation)"],
+[L2,"Forces de Van der Waals : types et énergie ?","0,1–2 kJ/mol, universelles et additives : Keesom (dipôle perm.–perm.), London (induit–induit), Debye (perm.–induit)"],
+[L2,"Influence des forces de London sur la Teb ?","Plus le volume augmente, plus la polarisabilité augmente, donc plus la Teb augmente"],
+[L2,"Effet hydrophobe ?","Entropique (ΔS solvant > 0, ΔG < 0) ; PAS une force attractive ; repliement protéique, membranes, log P"],
+[L3,"Nombre d’acides aminés connus et constitutifs des protéines ?","> 300 connus ✪ ; 20 constitutifs des protéines"],
+[L3,"Liaison d’un Cα ?","COOH/COO⁻, NH₂/NH₃⁺, H et chaîne latérale R ✪✪"],
+[L3,"Particularité de la proline ?","Amine secondaire (reliée par 2 covalences à 2 carbones différents)"],
+[L3,"Acides aminés hors protéines : exemples ?","β-alanine ; GABA = acide γ-aminobutyrique ✪ (acide γ aminé, neuromédiateur)"],
+[L3,"Série L et convention de Fischer ?","Fonction carboxylique vers le haut ; NH₃⁺ à gauche"],
+[L3,"Carbone asymétrique Cα ?","Dans tous les acides aminés des protéines sauf la Glycine ✪✪✪ ; un L-acide aminé peut être dextrogyre ou lévogyre ✪"],
+[L4,"Une modification post-traductionnelle est-elle codée par le gène ?","Non ✪✪✪ (catalysée le plus souvent par des enzymes)"],
+[L4,"Méthylation : acides aminés concernés ?","Lysine, Histidine ✪✪ (ex : actine, myosine, histones)"],
+[L4,"Hydroxylation : acides aminés et protéine ?","Proline (4-OHPro), Lysine ✪✪ (5-OHLys) ; collagène (stabilisation)"],
+[L4,"Phosphorylation : acides aminés concernés ?","Sérine ✪, Thréonine ✪, Tyrosine ✪ (estérification) ; processus réversible, état actif/inactif"],
+[L4,"Pont disulfure ?","Oxydation de 2 thiols de cystéines → cystine ; stabilise la structure"],
+[L4,"Glycosylation : acides aminés concernés ?","O-glycosylation : Sérine ✪, Thréonine ✪ ; N-glycosylation : Asparagine ✪"],
+[L5,"Solubilité minimale d’un acide aminé ?","À pH = pHi (point isoélectrique) : charge globale nulle, précipitation ; sert à la séparation et purification"],
+[L5,"Absorption UV des acides aminés aromatiques ?","Phe : max à 260 nm ; Tyr ✪✪✪ et Trp ✪✪✪ : max à 280 nm ✪✪✪ (dosage des protéines)"],
+[L5,"Précurseur de la dopamine ?","Tyrosine ✪ (la dopamine n’est pas un acide aminé ; Parkinson)"],
+[L5,"Acides aminés glucoformateurs ?","Ala, Gly, Ser ✪, Cys (néoglucogenèse) ✪"],
+[L5,"Acides aminés indispensables (mammifères) ?","Leu ✪, Thr ✪, Lys ✪, Trp ✪, Phe ✪, Val, Met ✪, Ile"],
+[L5,"Acides aminés semi-indispensables ?","Arg, His"],
+[L5,"Acides aminés non indispensables ?","Asp, Asn, Glu, Gln ✪, Ala, Cys, Tyr ✪, Gly ✪, Pro, Ser"]];
+const starsOf=it=>Math.max(0,...Object.values(it.f).map(v=>Math.max(0,...(String(v).match(/✪+/g)||[]).map(x=>x.length))));
+const DECKS={
+aa:{name:"Acides aminés",fields:{nom:"Nom",a3:"Code 3 lettres",a1:"Code 1 lettre",chaine:"Chaîne latérale",charge:"Charge au pH physiologique",carac:"Caractéristiques"},
+dirs:[[["nom"],["a3","a1"]],[["a3"],["nom"]],[["a1"],["nom"]],[["chaine"],["nom","a3"]],[["nom"],["chaine"]],[["nom"],["carac"]],[["nom"],["charge"]],[["nom"],["fam"]]]},
+vsepr:{name:"Géométrie (VSEPR)",fields:{mol:"Molécule",axe:"Notation AXE",geo:"Géométrie",ang:"Angles",pol:"Polarité"},
+dirs:[[["mol"],["axe","geo","ang"]],[["axe"],["geo","ang"]],[["mol"],["geo"]],[["mol"],["pol"]]]},
+autre:{name:"Autres notions",fields:{q:"Question",a:"Réponse"},dirs:[[["q"],["a"]]]}};
+const BASE=[];
+AA.forEach((r,i)=>BASE.push({id:"aa"+i,deck:"aa",fam:r[3],f:{nom:r[0],a3:r[1],a1:r[2],chaine:r[4],charge:r[5],carac:r[6]}}));
+VS.forEach((r,i)=>BASE.push({id:"vs"+i,deck:"vsepr",fam:r[5],f:{mol:r[0],axe:r[1],geo:r[2],ang:r[3],pol:r[4]}}));
+AU.forEach((r,i)=>BASE.push({id:"au"+i,deck:"autre",fam:r[0],f:{q:r[1],a:r[2]}}));
+let S=null;try{S=JSON.parse(localStorage.getItem("lsps")||"null")}catch(e){}
+S=S||{};S.custom=S.custom||[];S.box=S.box||{};S.sel=S.sel||{};S.deck=S.deck||"aa";if(S.v!=2){S.sel={};S.box={};S.v=2}
+const save=()=>{try{localStorage.setItem("lsps",JSON.stringify(S))}catch(e){}};
+const $=s=>document.querySelector(s);
+const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const items=()=>[...BASE,...S.custom];
+const dv=(it,k)=>k=="fam"?it.fam:(it.f[k]||"");
+const lab=(d,k)=>k=="fam"?"Famille":DECKS[d].fields[k];
+const dirsOf=it=>DECKS[it.deck].dirs.filter(([p,a])=>p.every(k=>dv(it,k))&&a.some(k=>dv(it,k)));
+const fams=d=>[...new Set(items().filter(i=>i.deck==d).map(i=>i.fam))];
+const selF=d=>S.sel[d]||fams(d);
+const pool=()=>items().filter(i=>i.deck==S.deck&&selF(S.deck).includes(i.fam));
+const bx=i=>S.box[i.id]||0;
+const rnd=a=>a[Math.floor(Math.random()*a.length)];
+const shuffle=a=>a.map(x=>[Math.random(),x]).sort((p,q)=>p[0]-q[0]).map(x=>x[1]);
+const blk=(it,keys,cls)=>keys.filter(k=>dv(it,k)).map(k=>`<div class="l">${esc(lab(it.deck,k))}</div><div class="${cls}">${esc(dv(it,k))}</div>`).join("");
+const ansText=(it,keys)=>keys.filter(k=>dv(it,k)).map(k=>dv(it,k)).join(" · ").replace(/\s*✪+/g,"");
+let V="home",cur=null,quiz=null,shown=false,seen=0,last=null;
+
+function setDeck(d){S.deck=d;save();V="home";render()}
+function tog(i){const d=S.deck,f=fams(d),s=selF(d).slice(),n=f[i],x=s.indexOf(n);x>=0?s.splice(x,1):s.push(n);S.sel[d]=s;save();render()}
+function allF(on){S.sel[S.deck]=on?fams(S.deck):[];save();render()}
+function go(v){V=v;shown=false;if(v=="card")nextCard();if(v=="quiz")startQuiz();if(v=="build")startBuild();if(v=="v3d")start3d();render()}
+
+function render(){
+ const tabs=`<div class="tabs">${Object.keys(DECKS).map(d=>`<button class="tab ${S.deck==d?"on":""}" onclick="setDeck('${d}')">${DECKS[d].name}</button>`).join("")}<button class="tab ${V=="add"?"on":""}" onclick="go('add')">＋ Mes cartes</button></div>`;
+ let h=tabs;
+ if(V=="home")h+=home();else if(V=="card")h+=cardV();else if(V=="quiz")h+=quizV();else if(V=="build")h+=buildV();else if(V=="v3d")h+=v3dV();else h+=addV();
+ $("#app").innerHTML=h;if(V=="v3d")init3d();
+}
+function home(){
+ const d=S.deck,f=fams(d),sel=selF(d),p=pool(),m=p.filter(i=>bx(i)>=4).length;
+ const chips=f.map((n,i)=>{const it=items().filter(x=>x.deck==d&&x.fam==n),mm=it.filter(x=>bx(x)>=4).length;
+  return `<button class="chip ${sel.includes(n)?"on":""}" onclick="tog(${i})">${esc(n)}<small>${mm}/${it.length} maîtrisées</small></button>`}).join("");
+ return `<p class="mu mt">Choisis les familles à réviser :</p><div class="row">${chips}</div>
+ <div class="row mt"><button class="btn" onclick="allF(true)">Tout</button><button class="btn" onclick="allF(false)">Aucun</button></div>
+ <div class="row mt"><button class="chip ${S.star?"on":""}" onclick="S.star=!S.star;save();render()">✪ Prioriser les notions étoilées</button></div><div class="card"><b>${p.length}</b> cartes sélectionnées · <b>${m}</b> maîtrisées
+ <div class="bar"><i style="width:${p.length?100*m/p.length:0}%"></i></div>
+ <div class="row mt"><button class="btn p" ${p.length?"":"disabled"} onclick="go('card')">Flashcards</button><button class="btn p" ${p.length>=2?"":"disabled"} onclick="go('quiz')">Quiz (QCM)</button>${d=="aa"?`<button class="btn p" ${p.some(i=>i.f.chaine)?"":"disabled"} onclick="go('build')">Construire les chaînes</button>`:""}${d=="vsepr"?`<button class="btn p" onclick="go('v3d')">Voir en 3D</button>`:""}</div></div>
+ <p class="mu">Les cartes ratées reviennent plus souvent ; une carte est « maîtrisée » après plusieurs réussites d’affilée. La progression est gardée sur cet appareil.</p>
+ <button class="btn ko" onclick="if(confirm('Remettre la progression à zéro ?')){S.box={};save();render()}">Réinitialiser la progression</button>`;
+}
+function nextCard(){
+ const p=pool();if(!p.length){V="home";return}
+ const c=p.filter(i=>i!==last&&dirsOf(i).length),L=c.length?c:p;
+ const w=L.map(i=>Math.pow(2,5-Math.max(1,bx(i)))*(S.star?1+starsOf(i):1)),t=w.reduce((a,b)=>a+b,0);let r=Math.random()*t,k=0;
+ while(k<L.length-1&&r>=w[k]){r-=w[k];k++}
+ const it=L[k],ds=dirsOf(it);last=it;cur={it,dir:rnd(ds)};shown=false;
+}
+function flip(){shown=true;render()}
+function rate(n){const i=cur.it,b=bx(i);S.box[i.id]=n==0?1:n==1?Math.max(1,b):Math.min(5,b+1);save();seen++;nextCard();render()}
+function cardV(){
+ const {it,dir}=cur;
+ return `<div class="card"><div class="mu">Carte ${seen+1} · niveau ${bx(it)}/5 · ${esc(it.fam)}</div>${blk(it,dir[0],"big")}
+ ${shown?`<hr style="border:0;border-top:1px solid var(--bd);margin:14px 0 0">${blk(it,dir[1],"ans")}
+ ${it.deck=="vsepr"?`<div class="mt"><button class="btn" onclick="open3d('${esc(it.id)}')">Voir en 3D</button></div>`:""}<div class="row mt"><button class="btn ko" onclick="rate(0)">Raté</button><button class="btn wa" onclick="rate(1)">Hésitant</button><button class="btn ok" onclick="rate(2)">Su</button></div>`
+ :`<div class="mt"><button class="btn p" onclick="flip()">Retourner</button></div>`}</div>
+ <button class="btn" onclick="go('home')">← Retour</button>`;
+}
+function startQuiz(){
+ const p=pool(),all=items().filter(i=>i.deck==S.deck),qs=[];
+ shuffle(p).slice(0,10).forEach(it=>{
+  const dir=rnd(dirsOf(it)),good=ansText(it,dir[1]);
+  const ds=[...new Set(shuffle(all).filter(x=>x!==it&&dirsOf(x).some(y=>y===dir||JSON.stringify(y)==JSON.stringify(dir))).map(x=>ansText(x,dir[1])))].filter(t=>t&&t!=good).slice(0,3);
+  qs.push({it,dir,good,opts:shuffle([good,...ds])});
+ });
+ quiz={qs,i:0,score:0,pick:null};
+}
+function pickOpt(j){const q=quiz.qs[quiz.i];if(quiz.pick!==null)return;quiz.pick=j;const ok=q.opts[j]==q.good;if(ok)quiz.score++;
+ const b=bx(q.it);S.box[q.it.id]=ok?Math.min(5,b+1):1;save();render()}
+function nextQ(){quiz.i++;quiz.pick=null;render()}
+function quizV(){
+ if(quiz.i>=quiz.qs.length)return `<div class="card"><div class="big">${quiz.score} / ${quiz.qs.length}</div><p class="mu">Quiz terminé.</p><div class="row"><button class="btn p" onclick="go('quiz')">Rejouer</button><button class="btn" onclick="go('home')">Accueil</button></div></div>`;
+ const q=quiz.qs[quiz.i];
+ return `<div class="card"><div class="mu">Question ${quiz.i+1}/${quiz.qs.length} · score ${quiz.score}</div>${blk(q.it,q.dir[0],"big")}
+ <p class="mu">Quelle est la réponse : ${q.dir[1].filter(k=>dv(q.it,k)).map(k=>esc(lab(q.it.deck,k))).join(" + ")} ?</p>
+ ${q.opts.map((o,j)=>`<button class="btn opt ${quiz.pick!==null?(o==q.good?"good":j==quiz.pick?"bad":""):""}" onclick="pickOpt(${j})">${esc(o)}</button>`).join("")}
+ ${quiz.pick!==null?`<div class="mt"><button class="btn p" onclick="nextQ()">${quiz.i+1<quiz.qs.length?"Suivante":"Voir le score"}</button></div>`:""}</div>
+ <button class="btn" onclick="go('home')">← Abandonner</button>`;
+}
+let B=null;
+const P=["–","CH","CH₂","CH₃","(CH₃)","(CH₂)","₂","₃","₄","OH","SH","NH","NH₂","CO","COO⁻","NH₃⁺","S","C(=NH₂⁺)","H","(",")","C₆H₅","C₆H₄","indole","imidazole","cycle pyrrolidine"];
+const canon=s=>String(s).replace(/\s*\((?=[^)]*[a-zà-ÿ]{4})[^)]*\)\s*$/i,"");
+const norm=s=>canon(s).replace(/⁺/g,"+").replace(/[⁻✪]/g,"").replace(/[₀-₉]/g,c=>c.charCodeAt(0)-8320).replace(/[–—−\-\s·.]/g,"").toLowerCase();
+function startBuild(){B={qs:shuffle(pool().filter(i=>i.f.chaine)).slice(0,10),i:0,score:0,val:"",res:null,hint:false};if(!B.qs.length)V="home"}
+function pal(i){$("#bi").value+=P[i]}
+function back(){const e=$("#bi");e.value=e.value.slice(0,-1)}
+function hintB(){B.val=$("#bi").value;B.hint=true;render()}
+function checkB(){const v=$("#bi").value,it=B.qs[B.i];if(!v.trim())return;const ok=norm(v)==norm(it.f.chaine);B.val=v;B.res=ok?"ok":"ko";if(ok)B.score++;const b=bx(it);S.box[it.id]=ok?Math.min(5,b+1):1;save();render()}
+function nextB(){B.i++;B.val="";B.res=null;B.hint=false;render()}
+function buildV(){
+ if(B.i>=B.qs.length)return `<div class="card"><div class="big">${B.score} / ${B.qs.length}</div><p class="mu">Construction terminée.</p><div class="row"><button class="btn p" onclick="go('build')">Rejouer</button><button class="btn" onclick="go('home')">Accueil</button></div></div>`;
+ const it=B.qs[B.i];
+ return `<div class="card"><div class="mu">Question ${B.i+1}/${B.qs.length} · score ${B.score}</div>
+ <div class="l">Construis la chaîne latérale de</div><div class="big">${esc(it.f.nom||it.f.a3)}${it.f.a3&&it.f.nom?` (${esc(it.f.a3)})`:""}</div>
+ ${B.hint?`<div class="mu">Famille : ${esc(it.fam)}</div>`:""}
+ <input id="bi" class="big" style="font-size:20px" placeholder="Boutons ci-dessous ou écris (ex. CH2-OH)" value="${esc(B.val)}" ${B.res?"disabled":""} autocomplete="off" autocapitalize="off">
+ ${B.res?`<div class="${B.res=="ok"?"ans":"l"}">${B.res=="ok"?"✓ Correct":"✗ Réponse attendue :"}</div>${B.res=="ko"?`<div class="ans">${esc(it.f.chaine)}</div>`:""}<div class="mt"><button class="btn p" onclick="nextB()">${B.i+1<B.qs.length?"Suivante":"Voir le score"}</button></div>`
+ :`<div class="pal">${P.map((x,i)=>`<button class="btn" onclick="pal(${i})">${esc(x)}</button>`).join("")}</div>
+ <div class="row"><button class="btn" onclick="back()">⌫</button><button class="btn" onclick="$('#bi').value=''">Effacer</button><button class="btn" onclick="hintB()">Indice</button><button class="btn p" onclick="checkB()">Valider</button></div>`}</div>
+ <button class="btn" onclick="go('home')">← Abandonner</button>`;
+}
+let G=null,raf=0;
+const sub=s=>String(s||"").replace(/[₀-₉]/g,c=>c.charCodeAt(0)-8320);
+function parseAXE(s){const t=sub(s),m=t.match(/X(\d*)/);if(!m)return null;const e=t.match(/E(\d*)/),n=+(m[1]||1),k=e?+(e[1]||1):0;return n+k>=2&&n+k<=6?{n,e:k}:null}
+const nv=v=>{const l=Math.hypot(...v);return v.map(x=>x/l)};
+const tri=[0,120,240].map(a=>[Math.cos(a*Math.PI/180),0,Math.sin(a*Math.PI/180)]);
+const POS={2:[[1,0,0],[-1,0,0]],3:tri,4:[[1,1,1],[1,-1,-1],[-1,1,-1],[-1,-1,1]].map(nv),5:[[0,1,0],[0,-1,0],...tri],6:[[1,0,0],[-1,0,0],[0,0,1],[0,0,-1],[0,1,0],[0,-1,0]]};
+const mols3d=()=>items().filter(i=>i.deck=="vsepr"&&parseAXE(i.f.axe));
+const angOf=(P,s)=>{const [u,v]=s.map(i=>P[i]);return Math.acos(u[0]*v[0]+u[1]*v[1]+u[2]*v[2])*180/Math.PI};
+function start3d(){G={id:null,yaw:.6,pitch:.35,auto:true,lone:true,sel:[]}}
+function open3d(id){start3d();G.id=id;V="v3d";render()}
+function updAng(){const el=$("#ang");if(!el)return;const it=mols3d().find(i=>i.id==G.id),a=parseAXE(it.f.axe);
+ if(G.sel.length<2){el.textContent="Touche deux atomes X pour mesurer l’angle idéal entre leurs liaisons.";return}
+ el.textContent="Angle idéal : "+(Math.round(angOf(POS[a.n+a.e],G.sel)*10)/10)+"°"+(it.f.ang?" · valeur du cours : "+it.f.ang:"")}
+function v3dV(){
+ const L=mols3d(),it=L.find(i=>i.id==G.id)||L[0];G.id=it.id;const a=parseAXE(it.f.axe);
+ const info=[["Notation",it.f.axe],["Géométrie",it.f.geo],["Angles",it.f.ang],["Hybridation",it.f.hyb],["Polarité",it.f.pol]].filter(x=>x[1]);
+ return `<div class="row mt">${L.map(x=>`<button class="chip ${x.id==G.id?"on":""}" onclick="G.id='${x.id}';G.sel=[];render()">${esc(x.f.mol||x.f.axe)}</button>`).join("")}</div>
+ <canvas id="cv" class="mt"></canvas>
+ <div class="row mt"><button class="btn" onclick="G.auto=!G.auto;render()">${G.auto?"⏸ Pause":"▶ Rotation"}</button><button class="btn" onclick="G.lone=!G.lone;render()">${G.lone?"Masquer":"Afficher"} les doublets</button></div>
+ <div class="card">${info.map(x=>`<div class="l">${x[0]}</div><div class="ans">${esc(x[1])}</div>`).join("")}<div id="ang" class="mt"></div>
+ <p class="mu">A = atome central, X = atomes liés${a.e?", cercles en pointillés = doublets non liants. Ils repoussent plus fort que les liaisons : l’angle réel est un peu plus petit que l’angle idéal":""}. Glisse le doigt pour tourner la molécule.</p></div>
+ <button class="btn" onclick="go('home')">← Retour</button>`;
+}
+function init3d(){
+ cancelAnimationFrame(raf);const cv=$("#cv");if(!cv)return;
+ const it=mols3d().find(i=>i.id==G.id),a=parseAXE(it.f.axe),P=POS[a.n+a.e],lig=P.slice(0,a.n),lp=P.slice(a.n),
+ dpr=window.devicePixelRatio||1,W=cv.clientWidth,H=cv.clientHeight,ctx=cv.getContext("2d"),cs=getComputedStyle(document.documentElement),css=n=>cs.getPropertyValue(n).trim(),
+ col={ac:css("--ac"),a2:css("--ac2"),tx:css("--tx"),mu:css("--mu"),wa:css("--wa"),sf:css("--sf")};
+ cv.width=W*dpr;cv.height=H*dpr;
+ let hits=[],drag=null,moved=0;
+ const sc=Math.min(W,H)*.3,
+ pr=v=>{let [x,y,z]=v,c=Math.cos(G.yaw),s=Math.sin(G.yaw);[x,z]=[x*c+z*s,-x*s+z*c];c=Math.cos(G.pitch);s=Math.sin(G.pitch);[y,z]=[y*c-z*s,y*s+z*c];const f=1/(1-z*.12);return{x:W/2+x*sc*f,y:H/2-y*sc*f,z,f}};
+ function draw(){
+  ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,W,H);hits=[];
+  const c=pr([0,0,0]),o=[{k:"c",p:c}];
+  lig.forEach((v,i)=>o.push({k:"l",i,p:pr(v)}));
+  if(G.lone)lp.forEach(v=>o.push({k:"e",p:pr(v.map(x=>x*.7))}));
+  o.sort((p,q)=>p.p.z-q.p.z);
+  ctx.textAlign="center";ctx.textBaseline="middle";ctx.font="600 14px system-ui,sans-serif";
+  o.forEach(({k,i,p})=>{
+   if(k=="l"){ctx.strokeStyle=col.mu;ctx.lineWidth=4*p.f;ctx.lineCap="round";ctx.beginPath();ctx.moveTo(c.x,c.y);ctx.lineTo(p.x,p.y);ctx.stroke();
+    const r=16*p.f,s=G.sel.includes(i);ctx.beginPath();ctx.arc(p.x,p.y,r,0,7);ctx.fillStyle=s?col.ac:col.a2;ctx.fill();ctx.strokeStyle=col.ac;ctx.lineWidth=2;ctx.stroke();ctx.fillStyle=s?col.sf:col.tx;ctx.fillText("X",p.x,p.y);hits.push({i,x:p.x,y:p.y,r:r+10})}
+   else if(k=="e"){ctx.beginPath();ctx.arc(p.x,p.y,15*p.f,0,7);ctx.globalAlpha=.3;ctx.fillStyle=col.wa;ctx.fill();ctx.globalAlpha=1;ctx.setLineDash([4,3]);ctx.strokeStyle=col.wa;ctx.lineWidth=1.5;ctx.stroke();ctx.setLineDash([]);ctx.fillStyle=col.wa;ctx.fillText("••",p.x,p.y)}
+   else{ctx.beginPath();ctx.arc(p.x,p.y,20*p.f,0,7);ctx.fillStyle=col.tx;ctx.fill();ctx.fillStyle=col.sf;ctx.fillText("A",p.x,p.y)}});
+  if(G.sel.length==2){const [u,v]=G.sel.map(i=>pr(lig[i])),q=w=>({x:c.x+(w.x-c.x)*.45,y:c.y+(w.y-c.y)*.45}),m=q(u),n=q(v),mx=(m.x+n.x)/2,my=(m.y+n.y)/2,dx=mx-c.x,dy=my-c.y,dl=Math.hypot(dx,dy)||1;
+   ctx.setLineDash([5,4]);ctx.strokeStyle=col.ac;ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(m.x,m.y);ctx.lineTo(n.x,n.y);ctx.stroke();ctx.setLineDash([]);
+   ctx.fillStyle=col.ac;ctx.font="700 15px system-ui,sans-serif";ctx.fillText(Math.round(angOf(P,G.sel))+"°",mx+dx/dl*16,my+dy/dl*16)}
+  if(G.auto&&!drag)G.yaw+=.007;
+ }
+ cv.onpointerdown=e=>{drag={x:e.clientX,y:e.clientY};moved=0;cv.setPointerCapture(e.pointerId)};
+ cv.onpointermove=e=>{if(!drag)return;const dx=e.clientX-drag.x,dy=e.clientY-drag.y;drag={x:e.clientX,y:e.clientY};moved+=Math.abs(dx)+Math.abs(dy);G.yaw+=dx*.01;G.pitch=Math.max(-1.5,Math.min(1.5,G.pitch+dy*.01))};
+ cv.onpointerup=e=>{if(drag&&moved<6){const r=cv.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top,h=hits.filter(h=>Math.hypot(h.x-x,h.y-y)<h.r).sort((p,q)=>Math.hypot(p.x-x,p.y-y)-Math.hypot(q.x-x,q.y-y))[0];if(h){const j=G.sel.indexOf(h.i);if(j>=0)G.sel.splice(j,1);else G.sel=[...G.sel.slice(-1),h.i];updAng()}}drag=null};
+ (function loop(){if(!document.body.contains(cv))return;draw();raf=requestAnimationFrame(loop)})();
+ updAng();
+}
+function addV(){
+ const d=S.deck,F=DECKS[d].fields;
+ return `<div class="card"><b>Ajouter une carte — ${DECKS[d].name}</b>
+ <p class="mu">Change de thème avec les onglets ci-dessus. Écris une famille existante ou une nouvelle.</p>
+ <label class="l">Famille</label><input id="nf" list="fl" placeholder="ex. Apolaires, ou une nouvelle famille"><datalist id="fl">${fams(d).map(f=>`<option value="${esc(f)}">`).join("")}</datalist>
+ ${Object.keys(F).map(k=>`<label class="l">${F[k]}</label><input data-k="${k}">`).join("")}
+ <button class="btn p" onclick="addC()">Ajouter</button> <span id="msg" class="mu"></span></div>
+ <div class="card"><b>Mes cartes (${S.custom.filter(c=>c.deck==d).length})</b>
+ ${S.custom.filter(c=>c.deck==d).map(c=>`<div class="li"><span>${esc(Object.values(c.f).find(x=>x)||"?")} <span class="mu">· ${esc(c.fam)}</span></span><button class="btn ko" onclick="delC('${c.id}')">Suppr.</button></div>`).join("")||'<p class="mu">Aucune carte ajoutée pour l’instant.</p>'}</div>`;
+}
+function addC(){
+ const fam=$("#nf").value.trim(),f={};document.querySelectorAll("[data-k]").forEach(e=>f[e.dataset.k]=e.value.trim());
+ if(!fam||!Object.values(f).some(x=>x)){$("#msg").textContent="Indique une famille et au moins un champ.";return}
+ S.custom.push({id:"c"+Date.now(),deck:S.deck,fam,f});
+ if(S.sel[S.deck]&&!S.sel[S.deck].includes(fam))S.sel[S.deck].push(fam);
+ save();render();$("#msg").textContent="Carte ajoutée ✓";
+}
+function delC(id){S.custom=S.custom.filter(c=>c.id!=id);delete S.box[id];save();render()}
+render();
+</script></body></html>
